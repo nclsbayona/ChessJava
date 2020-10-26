@@ -1,7 +1,9 @@
-package Model;
+package poo.Model;
 
-public abstract class Piece 
-{
+import java.util.HashSet;
+
+public abstract class Piece {
+    protected HashSet<Piece> eatenPieces;
     protected String color;
     protected int eaten;
     protected int position_x;
@@ -65,42 +67,30 @@ public abstract class Piece
     public void setCanMoveBack(boolean canMoveBack) {
         this.canMoveBack = canMoveBack;
     }
-    
-    public Piece(int movX, int movY, boolean canMoveBack, int x, int y, String color)
-    {
-        this.color=color;
-        this.eaten=0;
-        this.maxMovement_length_x=movX;
-        this.maxMovement_length_y=movY;
-        this.canMoveBack=canMoveBack;
-        this.position_x=x;
-        this.position_y=y;
-    }
-    public Piece(boolean canMoveBack, int x, int y, String color)
-    {
-        this.color=color;
-        this.eaten=0;
-        this.maxMovement_length_x=100;
-        this.maxMovement_length_y=100;
-        this.canMoveBack=canMoveBack;
-        this.position_x=x;
-        this.position_y=y;
+
+    public Piece(int movX, int movY, boolean canMoveBack, int x, int y, String color) {
+        this.eatenPieces=new HashSet<>();
+        this.color = color;
+        this.eaten = 0;
+        this.maxMovement_length_x = movX;
+        this.maxMovement_length_y = movY;
+        this.canMoveBack = canMoveBack;
+        this.position_x = x;
+        this.position_y = y;
     }
 
-    public void eatPiece(Piece piece) 
-    {
-        piece=null;
-        this.eaten+=1;
+    public void eatPiece(Piece piece) {
+        this.eatenPieces.add(piece);
+        this.eaten += 1;
     }
 
-    public void movePiece(int movement_in_x, int movement_in_y)
-    {
-        this.position_x+=movement_in_x;
-        this.position_y+=movement_in_y;
+    public void movePiece(int movement_in_x, int movement_in_y) {
+        this.position_x += movement_in_x;
+        this.position_y += movement_in_y;
     }
+
     @Override
-    public String toString()
-    {
-        return ""+this.color+" eaten: "+this.eaten+" Pos x "+this.position_x+" Pos y "+this.position_y+'\n'+this.getClass()+'\n';
+    public String toString() {
+        return "Color: " + this.color + " eaten: " + this.eaten + '\t' + this.getClass() + '\n';
     }
 }
