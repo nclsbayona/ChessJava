@@ -1,4 +1,4 @@
-<!-- Hey there. Thank you so much for improving NewPipe, and filling out the details. Having roughly the same layout helps everyone considerably :)-->
+<!-- Hey there. Thank you so much for improving ChessJava, and filling out the details. Having roughly the same layout helps everyone considerably :)-->
 
 #### What is it?
 - [ ] Bugfix (user facing)
@@ -21,8 +21,8 @@
 - 
 
 #### APK testing 
-<!-- Use a new, meaningfully named branch. The name is used as a suffix for the app ID to allow installing and testing multiple versions of NewPipe, e.g. "commentfix", if your PR implements a bugfix for comments. (No names like "patch-0" and "feature-1".)  -->
+<!-- Use a new, meaningfully named branch. The name is used as a suffix for the app ID to allow installing and testing multiple versions of ChessJava, e.g. "commentfix", if your PR implements a bugfix for comments. (No names like "patch-0" and "feature-1".)  -->
 debug.zip
 
 #### Due diligence
-- [ ] I read the [contribution guidelines](https://github.com/TeamNewPipe/NewPipe/blob/HEAD/.github/CONTRIBUTING.md).
+- [ ] I read the [contribution guidelines](https://github.com/nclsbayona/ChessJava/blob/HEAD/.github/CONTRIBUTING.md).

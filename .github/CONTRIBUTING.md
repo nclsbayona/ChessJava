@@ -1,11 +1,11 @@
-NewPipe contribution guidelines
+ChessJava contribution guidelines
 ===============================
 
 PLEASE READ THESE GUIDELINES CAREFULLY BEFORE ANY CONTRIBUTION!
 
 ## Crash reporting
 
-Do not report crashes in the GitHub issue tracker. NewPipe has an automated crash report system that will ask you to
+Do not report crashes in the GitHub issue tracker. ChessJava has an automated crash report system that will ask you to
 send a report via e-mail when a crash occurs. This contains all the data we need for debugging, and allows you to even
 add a comment to it. You'll see exactly what is sent, the system is 100% transparent.
 
@@ -39,7 +39,7 @@ hasn't been reported/requested before.
   description. Untested code will **not** be merged!
 * Try to figure out yourself why builds on our CI fail.
 * Make sure your PR is up-to-date with the rest of the code. Often, a simple click on "Update branch" will do the job,
-  but if not, you are asked to rebase the dev branch manually and resolve the problems on your own. You can find help [on the wiki](https://github.com/TeamNewPipe/NewPipe/wiki/How-to-merge-a-PR). That will make the
+  but if not, you are asked to rebase the dev branch manually and resolve the problems on your own. You can find help [on the wiki](https://github.com/nclsbayona/ChessJava/wiki/How-to-merge-a-PR). That will make the
   maintainers' jobs way easier.
 * Please show intention to maintain your features and code after you contributed it. Unmaintained code is a hassle for
   the core developers, and just adds work. If you do not intend to maintain features you contributed, please think again
