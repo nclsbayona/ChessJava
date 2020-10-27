@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 public abstract class Piece {
     protected HashSet<Piece> eatenPieces;
+    protected boolean canBeEaten;
     protected String color;
     protected int eaten;
     protected int position_x;

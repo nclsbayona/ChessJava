@@ -57,7 +57,7 @@ public class Board {
         for (int i = 0; i < this.lengthY; ++i) {
             for (int j = 0; j < this.lengthY; ++j) {
                 ret += "[" + String.valueOf(i + 1) + "][" + String.valueOf(j + 1) + "]" + ": "
-                        + ((this.pieces[i][j] == null) ? "Empty" : this.pieces[i][j].toString()) + "\'";
+                        + ((this.pieces[i][j] == null) ? "Empty\n" : this.pieces[i][j].toString()) + "\'";
                 if (i < this.lengthY - 1 || j < this.lengthX - 1)
                     ret += '\t';
             }
