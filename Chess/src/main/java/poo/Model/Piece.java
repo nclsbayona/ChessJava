@@ -92,6 +92,6 @@ public abstract class Piece {
 
     @Override
     public String toString() {
-        return "Color: " + this.color + " eaten: " + this.eaten + '\t' + this.getClass() + '\n';
+        return "Color: " + this.color + " eaten: " + this.eaten + '\t' + this.getClass()+' ';
     }
 }

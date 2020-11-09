@@ -28,13 +28,15 @@ public class ChessView {
                 nChessView = new ChessView(Integer.parseInt(numberP));
         }
         nChessView.controlBoard.startFor2();
-        //System.out.println(nChessView);
-        nChessView.controlBoard.movePiece(2, 2, 7, 1, 0);
+        System.out.println(nChessView.controlBoard.movePiece(2, 7, 7, 0, -1));
         nChessView.controlBoard.movePiece(2, 4, 8, 0, -6);
         nChessView.controlBoard.movePiece(2, 4, 2, -2, 0);
-        //nChessView.controlBoard.movePiece(1, 3, 2, 0, 1);
+        nChessView.controlBoard.movePiece(1, 3, 2, 0, 1);
         nChessView.controlBoard.movePiece(1, 4, 1, -3, 3);
+        nChessView.controlBoard.movePiece(1, 4, 2, 0, 3);
+        //System.out.println(nChessView);
         System.out.println(nChessView);
+        System.out.println(nChessView.controlBoard.printBoard());
         System.out.println(nChessView.controlBoard.lookPiece(2, 2));
         sc.close();
     }

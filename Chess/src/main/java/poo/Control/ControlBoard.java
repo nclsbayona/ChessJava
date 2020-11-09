@@ -71,6 +71,32 @@ public class ControlBoard {
         this.board = board;
     }
 
+    private int absoluteValue(int value) {
+        return (value < 0) ? value * -1 : value;
+    }
+
+    public boolean validateSpecialPiecesMove(Piece piece, int desiredX, int desiredY) {
+        boolean valid = true;
+        if (piece instanceof Pawn) {
+            if (!(((((Pawn) (piece)).isFirstMove()) && (this.absoluteValue(desiredY) <= 2)))
+                    || !(this.absoluteValue(desiredY) <= 1)) {
+                valid = false;
+            }
+            if (((Pawn) (piece)).isFirstMove())
+                ((Pawn) (piece)).setFirstMove(false);
+        } else if (piece instanceof Rook) {
+            if (!(desiredX == 0 || desiredY == 0))
+                valid = false;
+        } else if (piece instanceof Knight) {
+            if (!(((this.absoluteValue(desiredX) == 1 && this.absoluteValue(desiredY) == 2))||(this.absoluteValue(desiredX) == 2 && this.absoluteValue(desiredY) == 1)))
+                valid = false;
+        } else if (piece instanceof Bishop) {
+            if (this.absoluteValue(desiredX) != this.absoluteValue(desiredY))
+                valid = false;
+        }
+        return valid;
+    }
+
     public Piece lookPiece(int x, int y) {
         try {
             Piece p = board.getPieces()[y - 1][x - 1];
@@ -83,7 +109,9 @@ public class ControlBoard {
     public boolean movePiece(int numPlayer, int pieceX, int pieceY, int desiredX, int desiredY) {
         Piece pM = this.lookPiece(pieceX, pieceY);
         Piece p2 = this.lookPiece(pieceX + desiredX, pieceY + desiredY);
-        if (pM == null || this.validatePossibleMove(pieceX, pieceY, desiredX, desiredY)==false)
+        if (pM == null || this.validatePossibleMove(pieceX, pieceY, pieceX + desiredX, pieceY + desiredY) == false)
+            return false;
+        if (this.validateSpecialPiecesMove(pM, desiredX, desiredY)==false)
             return false;
         if ((p2 == null) || (!(pM.getColor().equals(p2.getColor())))) {
             boolean p = this.players[numPlayer - 1].movePiece(pM, desiredX, desiredY, this.board.getLengthX(),
@@ -100,34 +128,70 @@ public class ControlBoard {
     private boolean validatePossibleMove(int pieceX, int pieceY, int desiredX, int desiredY) {
         boolean valid = true;
         if (desiredX == 0 && desiredY == 0)
-            return valid;        
+            return valid;
         if (desiredX == 0 && desiredY != 0) {
-            int increaseY=(pieceY<desiredY)?1:-1;
-            //Same x
-            for(int j=pieceY+increaseY; j!=desiredY&&valid; j+=increaseY){
-                if (this.lookPiece(pieceX, j)!=null)
-                    valid=false;
+            int increaseY = (pieceY < desiredY) ? 1 : -1;
+            // Same x
+            for (int j = pieceY + increaseY; j != desiredY && valid; j += increaseY) {
+                if (this.lookPiece(pieceX, j) != null)
+                    valid = false;
             }
         } else if (desiredY == 0 && desiredX != 0) {
-            int increaseX=(pieceX<desiredX)?1:-1;
+            int increaseX = (pieceX < desiredX) ? 1 : -1;
             // Same y
-            for(int i=pieceX+increaseX; i!=desiredX&&valid; i+=increaseX){
-                if (this.lookPiece(i, pieceY)!=null)
-                    valid=false;
+            for (int i = pieceX + increaseX; i != desiredX && valid; i += increaseX) {
+                if (this.lookPiece(i, pieceY) != null)
+                    valid = false;
             }
         } else {
-            int increaseY=(pieceY<desiredY)?1:-1;
-            int increaseX=(pieceX<desiredX)?1:-1;
-            if (increaseX==1&&increaseY==1){
-                //All positive
-                
-                for(int i=pieceX+increaseX; i!=desiredX&&valid; i+=increaseX){
-                    if (this.lookPiece(i, pieceY)!=null)
-                        valid=false;
+            int increaseY = (pieceY < desiredY) ? 1 : -1;
+            int increaseX = (pieceX < desiredX) ? 1 : -1;
+            if (increaseX == 1 && increaseY == 1) {
+                // All positive
+                for(int i=1; i<=desiredX&&valid; i++){
+                    if (this.lookPiece(pieceX+i, pieceY+i) != null)
+                        valid = false;
+                }
+            }
+            else if (increaseX == 1 && increaseY == -1) {
+                // X+ Y-
+                for(int i=1; i<=desiredX&&valid; i++){
+                    if (this.lookPiece(pieceX+i, pieceY-i) != null)
+                        valid = false;
+                }
+            }
+            else if (increaseX == -1 && increaseY == 1) {
+                // X+ Y-
+                for(int i=-1; i>=desiredX&&valid; i--){
+                    if (this.lookPiece(pieceX+i, pieceY-i) != null)
+                        valid = false;
+                }
+            }
+            else{
+                // X- Y-
+                for(int i=-1; i>=desiredX&&valid; i--){
+                    if (this.lookPiece(pieceX+i, pieceY+i) != null)
+                        valid = false;
                 }
             }
         }
         return valid;
+    }
+
+    public String printBoard() {
+        String board = "";
+        for (int i = 0; i < this.board.getLengthY(); i++) {
+            for (int j = this.board.getLengthX()-1; j >=0 ; --j) {
+                try{
+                    board += " |["+String.valueOf(i+1)+"]["+String.valueOf(j+1)+"]";
+                    board += String.valueOf(this.lookPiece(j+1, i+1).getClass().getCanonicalName())+' '+String.valueOf(this.lookPiece(j + 1, i + 1).getColor());
+                }catch(Exception e){
+                    board+="NULL";
+                }
+            }
+            board += "|\n";
+        }
+        return board;
     }
 
     public boolean updateBoard(Piece piece, int oldX, int oldY) {
@@ -151,7 +215,7 @@ public class ControlBoard {
         }
     }
 
-    public EnumPieces getEnumPiece(int n) {
+    public EnumPieces getEnumPiece(int n) throws Error {
         EnumPieces ep = null;
         try {
             switch (n) {
@@ -164,19 +228,23 @@ public class ControlBoard {
                     break;
                 }
                 case 3: {
+                    ep = EnumPieces.King;
                     break;
                 }
                 case 4: {
+                    ep = EnumPieces.Bishop;
                     break;
                 }
                 case 5: {
+                    ep = EnumPieces.Knight;
                     break;
                 }
                 case 6: {
+                    ep = EnumPieces.Rook;
                     break;
                 }
                 default: {
-                    throw new IllegalAccessException();
+                    throw new Error();
                 }
             }
             return ep;
@@ -194,7 +262,7 @@ public class ControlBoard {
                 else if ((i == 1) || (i == 6))
                     this.addPieceToBoard(EnumPieces.Pawn, (i == 1) ? 1 : 2, j + 1, i + 1);
                 else if ((i == 0 && j == 4) || (i == 7 && j == 4))
-                    this.addPieceToBoard(EnumPieces.King, (i == 1) ? 1 : 2, j + 1, i + 1);
+                    this.addPieceToBoard(EnumPieces.King, (i == 0) ? 1 : 2, j + 1, i + 1);
             }
         }
     }
@@ -217,6 +285,23 @@ public class ControlBoard {
             case Queen: {
                 creada = new Queen(8, 8, true, x, y, (playerNumber == 1) ? "FFFFFF"
                         : (playerNumber == 2) ? "000000" : (playerNumber == 3) ? "FFF000" : "AAAFFF");
+                break;
+            }
+            case Bishop: {
+                creada = new Bishop(8, 8, true, x, y, (playerNumber == 1) ? "FFFFFF"
+                        : (playerNumber == 2) ? "000000" : (playerNumber == 3) ? "FFF000" : "AAAFFF");
+            }
+            case Knight: {
+                creada = new Knight(2, 2, true, x, y, (playerNumber == 1) ? "FFFFFF"
+                        : (playerNumber == 2) ? "000000" : (playerNumber == 3) ? "FFF000" : "AAAFFF");
+                break;
+            }
+            case Rook: {
+                creada = new Rook(8, 8, true, x, y, (playerNumber == 1) ? "FFFFFF"
+                        : (playerNumber == 2) ? "000000" : (playerNumber == 3) ? "FFF000" : "AAAFFF");
+                break;
+            }
+            default: {
                 break;
             }
         }
